@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe_recipe 'hashicorp-vault::default' do
+describe_recipe 'test::vault_config' do
   context 'with default attributes' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(step_into: %w{vault_config}) do |node, server|
@@ -49,7 +49,7 @@ describe_recipe 'hashicorp-vault::default' do
   context 'with TLS disabled' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(step_into: %w{vault_config}) do |node|
-        node.set['vault']['config']['tls_disable'] = true
+        node.set['vault']['config']['tls_disable'] = "true"
       end.converge(described_recipe)
     end
 
