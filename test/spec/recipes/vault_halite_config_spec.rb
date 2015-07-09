@@ -1,4 +1,4 @@
-#require 'halite/spec_helper'
+# require 'halite/spec_helper'
 require 'poise_boiler/spec_helper'
 require 'poise'
 
@@ -20,14 +20,16 @@ describe Chef::Resource::VaultConfig do
         tls_key_file '/etc/vault/ssl/private/vault.key'
         tls_cert_file '/etc/vault/ssl/certs/vault.crt'
         tls_disable ''
+        bag_name 'secrets'
+        bag_item 'vault'
       end
     end
 
     before do
       recipe = double("Chef::Recipe")
       allow_any_instance_of(Chef::RunContext).to receive(:include_recipe).and_return([recipe])
-      
-      allow_any_instance_of(Chef::RunContext).to receive(:chef_vault_item).and_return(
+
+      allow_any_instance_of(Chef::DSL::Recipe).to receive(:chef_vault_item).and_return(
         { 'certificate' => 'foo', 'private_key' => 'bar' }
       )
     end

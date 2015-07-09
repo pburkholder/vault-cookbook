@@ -9,6 +9,7 @@ require 'poise'
 # @since 1.0.0
 class Chef::Resource::VaultConfig < Chef::Resource
   include Poise(fused: true)
+#  include Poise
   provides(:vault_config)
 
   # @!attribute path
@@ -31,6 +32,8 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:tls_disable, kind_of: String, default: "")
   attribute(:tls_cert_file, kind_of: String)
   attribute(:tls_key_file, kind_of: String)
+  attribute(:bag_name, kind_of: String)
+  attribute(:bag_item, kind_of: String)
   attribute(:disable_mlock, equal_to: [true, false], default: false)
   attribute(:statsite_addr, kind_of: String)
   attribute(:statsd_addr, kind_of: String)
@@ -60,7 +63,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   action(:create) do
     notifying_block do
       if new_resource.tls?
-        # include_recipe 'chef-vault::default'
+        include_recipe 'chef-vault::default'
 
         directory ::File.dirname(new_resource.tls_cert_file) do
           recursive true
@@ -69,9 +72,10 @@ class Chef::Resource::VaultConfig < Chef::Resource
           mode '0755'
         end
 
-  #      item = chef_vault_item(node['vault']['bag_name'], node['vault']['bag_item'])
-        item =   { 'certificate' => 'foo', 'private_key' => 'bar' }
-
+        item = chef_vault_item(
+          new_resource.bag_name,
+          new_resource.bag_item
+        )
         file new_resource.tls_cert_file do
           content item['certificate']
           mode '0644'
