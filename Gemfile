@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'chef-vault', '~> 2.6'
+gem 'poise', '~> 2.0'
 
 group :lint do
   gem 'rubocop'

@@ -4,6 +4,10 @@
 #
 # Copyright (C) 2015 Bloomberg Finance L.P.
 #
+# PDB: Would consider renaming all attributes
+#   node.['hc-vault'] or node.['hashicorp-vault']
+# so there's less chance of a namespace collision
+#
 default['vault']['service_name'] = 'vault'
 default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe_recipe 'test::vault_config' do
   context 'with default attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(step_into: %w{vault_config}) do |node, server|
+      ChefSpec::ServerRunner.new(step_into: %w{hashicorp-vault_vault_config}) do |node, server|
         server.create_data_bag('secrets', {
           'vault' => {
             'certificate' => 'foo',
